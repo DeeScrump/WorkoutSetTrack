@@ -24,8 +24,8 @@ router.get("/", async (req, res) => {
     ])
         .sort({ date: -1 })
         .limit(1)
-        .then((dbFitlife) => {
-            res.json(dbFitlife);
+        .then((dbWorkout) => {
+            res.json(dbWorkout);
         })
         .catch((err) => {
             res.status(400).json(err);
@@ -43,8 +43,8 @@ router.get("/range", async (req, res) => {
     ])
         .sort({ date: -1 })
         .limit(7)
-        .then(dbFitlife => {
-            res.json(dbFitlife);
+        .then(dbWorkout => {
+            res.json(dbWorkout);
         })
         .catch(err => {
             res.status(400).json(err);
