@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+//Model schema for Workout
 const WorkoutSchema = new Schema({
   day: {
     type: Date,
