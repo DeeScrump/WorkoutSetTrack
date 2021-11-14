@@ -24,8 +24,6 @@ router.get("/api/workouts", async (req, res) => {
             },
         },
     ])
-    .sort({ date: -1 })
-    .limit(1)
     .then((dbWorkout) => {
         res.json(dbWorkout);
     })
@@ -35,7 +33,7 @@ router.get("/api/workouts", async (req, res) => {
 });
 
 //get range of workouts
-router.get("/api/workouts/range", async (req, res) => {
+router.get("/api/workouts/range", async ({ body }, res) => {
     Workout.aggregate([
         {
             $addFields: {
