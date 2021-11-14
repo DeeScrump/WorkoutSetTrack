@@ -1,5 +1,4 @@
 const path = require("path");
-const mongoose = require("mongoose");
 const router = require("express").Router();
 const Workout = require("../models/workout.js");
 
