@@ -1,5 +1,6 @@
-const router = require("express").Router();
 const path = require("path");
+const mongoose = require("mongoose");
+const router = require("express").Router();
 const Workout = require("../models/workout.js");
 
 // Routes to access each page
@@ -16,31 +17,36 @@ router.get("/stats", function (req, res) {
 });
 
 //Route to workouts
-router.get("/api/workouts", async (req, res) => {
+router.get("/api/workouts", (req, res) => {
     Workout.aggregate([
         {
             $addFields: {
-                totalDuration: { $sum: "$exercises.duration" },
-            },
-        },
+              totalDuration: {
+                  $sum: "$exercises.duration"
+              }
+            }
+        }
     ])
-    .then((dbWorkout) => {
-        res.json(dbWorkout);
-    })
-    .catch((err) => {
-        res.status(400).json(err);
-    });
+        .then((dbWorkout) => {
+            res.json(dbWorkout);
+        })
+        .catch((err) => {
+            res.status(400).json(err);
+        }
+    );
 });
 
 //get range of workouts
-router.get("/api/workouts/range", async ({ body }, res) => {
-    Workout.aggregate([
+router.get("/api/workouts/range", (req, res) => {
+    Workout.aggregate(
+        [
         {
             $addFields: {
                 totalDuration: { $sum: "$exercises.duration" },
-            },
-        },
-    ])
+            }
+        }
+        ]
+    )
     .sort({ date: -1 })
     .limit(7)
     .then(dbWorkout => {
@@ -51,6 +57,7 @@ router.get("/api/workouts/range", async ({ body }, res) => {
     });
 })
 
+// Create a new workout
 router.post("/api/workouts", ({ body }, res) => {
     Workout.create(body)
         .then((dbWorkout) => {
@@ -62,6 +69,7 @@ router.post("/api/workouts", ({ body }, res) => {
     );
 });
 
+//update an existing workout
 router.put("/api/workouts/:id", (req, res) => {
     Workout.updateOne(
         {
